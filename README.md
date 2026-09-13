@@ -2505,7 +2505,53 @@ anymore; all positioning comes from `FloatingPanel`'s own inline styles,
 with nothing left in the CSS to conflict with whichever direction it
 picks.
 
+## Theme rebrand - Hyper Cobalt / Powder Sky palette
+
+No migration needed - a single CSS block, both themes.
+
+Replaced the brass/gold accent with Hyper Cobalt (`#0038FF`) and Powder
+Sky (`#D6E3FF`) across both Dark and Light mode. Every color in the app
+flows through a small set of CSS variables in `index.css` (`--brass`,
+`--panel-alt`, etc.) that every component already references by role,
+not by literal color - so this was a single, contained edit, not a
+hunt-and-replace across component files. Confirmed nothing bypasses
+that: no hardcoded hex values anywhere in the JSX, and `celebrate.js`'s
+confetti already pulls from `var(--brass)` etc., so it picks up the new
+palette automatically too.
+
+- **`--brass`/`--brass-dim`** (the primary accent - buttons, active nav,
+  links, focus rings) is Hyper Cobalt, tuned per mode the same way the
+  old brass value already was: Light mode uses the exact given hex
+  (`#0038FF` reads with excellent contrast against a white/near-white
+  surface); Dark mode uses a brightened version (`#5C82FF`) - pure
+  `#0038FF` measures quite low-contrast against a near-black background
+  despite looking vivid in isolation, so it needed lightening to stay
+  legible as text/icon/border color, not just as a big block of color.
+- **`--panel-alt`** in Light mode (hover/alt surfaces) is Powder Sky
+  exactly as given.
+- **Two small companion retunes** for overall cohesion, not asked for
+  explicitly but needed so the theme doesn't read as half-converted:
+  Light mode's `--ink` (page background) shifted from a warm cream to a
+  barely-tinted cool white, and `--rule` (borders) from a warm tan to a
+  pale blue-gray that echoes Powder Sky. Dark mode's paper (primary
+  text) shifted from a warm cream to a cool pale blue-white to match.
+- **Left untouched on purpose**: `--teal` and `--brick` (success/danger
+  - functional, not brand color, and not part of the given palette), and
+  every other structural variable (`--panel`, dark mode's `--ink`/
+  `--rule`, both modes' `--paper-dim`) that was already cool-toned and
+  didn't need retuning to fit.
+
 ## Status
+
+- [x] **Theme rebrand: Hyper Cobalt / Powder Sky (Sep 2026):** replaced
+      the brass/gold accent with Hyper Cobalt (`#0038FF`, brightened to
+      `#5C82FF` for Dark mode's contrast needs) as the primary accent in
+      both themes, and Powder Sky (`#D6E3FF`) as Light mode's alt-
+      surface color. Contained entirely to the CSS variable block in
+      `index.css` - confirmed no hardcoded hex values elsewhere in the
+      app bypass it. `--teal`/`--brick` (functional success/danger)
+      left untouched on purpose. See "Theme rebrand - Hyper Cobalt /
+      Powder Sky palette" above.
 
 - [x] **Fixed root cause: leftover CSS fighting the new positioning (Sep
       2026):** `.mention-menu` still had `position: absolute; top:

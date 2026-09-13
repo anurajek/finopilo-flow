@@ -6,33 +6,37 @@
   --panel: #16212c;
   --panel-alt: #1c2a38;
   --rule: #2a3744;
-  --paper: #ede6d6;
+  --paper: #e8ecff;
   --paper-dim: #93a2ac;
-  --brass: #c9a227;
-  --brass-dim: #8a701c;
+  --brass: #5c82ff;
+  --brass-dim: #3d5ac7;
   --teal: #3fa796;
   --brick: #c1554d;
 }
 
-/* Light mode - the same "financial ledger" identity (brass accents, that
-   exact accent palette), just inverted onto a warm cream paper background
-   instead of dark ink. --ink and --paper keep their original roles (page
-   background and primary text, respectively) rather than being redefined
-   - every rule in this file already refers to them by role, so only the
-   values needed to change, not the hundreds of places that use them.
-   brass/teal/brick are deliberately darkened here, not reused unchanged -
-   the original values are tuned to pop against a dark background and lose
-   real contrast/readability against a light one. */
+/* Light mode - Hyper Cobalt / Powder Sky palette (Sep 2026), the same
+   structural roles as dark mode (--ink and --paper keep their original
+   meaning: page background and primary text) just inverted onto a light
+   surface. --brass is Hyper Cobalt itself here (#0038FF reads with
+   excellent contrast against white/near-white - no need to brighten it
+   the way dark mode's version needed brightening against near-black).
+   --panel-alt is Powder Sky exactly as given, used for hover/alt
+   surfaces; --rule and --ink got a small companion retune (cool
+   blue-white/blue-gray instead of the old warm cream/tan) so borders and
+   the page background read as part of the same family rather than a
+   half-converted mix of the old warm palette and the new cool one.
+   --teal/--brick are untouched - they're functional (success/danger),
+   not part of the brand palette, and changing them wasn't asked for. */
 [data-theme="light"] {
   color-scheme: light;
-  --ink: #f7f4ec;
+  --ink: #f5f7ff;
   --panel: #ffffff;
-  --panel-alt: #f1ede0;
-  --rule: #ddd5c0;
+  --panel-alt: #d6e3ff;
+  --rule: #c7d4f0;
   --paper: #1f2a33;
   --paper-dim: #5b6b75;
-  --brass: #a6811e;
-  --brass-dim: #8a701c;
+  --brass: #0038ff;
+  --brass-dim: #0029bf;
   --teal: #227a6c;
   --brick: #a83f38;
 }
