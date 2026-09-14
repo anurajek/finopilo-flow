@@ -2541,7 +2541,38 @@ palette automatically too.
   `--rule`, both modes' `--paper-dim`) that was already cool-toned and
   didn't need retuning to fit.
 
+## Removed Overdue and Completed from the manual status list
+
+No migration needed - UI/logic-only, no database constraint change.
+
+`MANUAL_STATUSES` (the options in every Status dropdown, and the Status
+filter shown on Invoice/PI Follow-up) trimmed from six choices down to
+four: **Sent, Partially Paid, Paid, Invoiced**. Two removed:
+
+- **Overdue** - redundant with the automatic overdue tracking every
+  list already shows (the Days Overdue column, computed purely from
+  amount/paid_amount/due date) - manually setting the same label on
+  top of that was confusing rather than useful, since the two could
+  disagree with each other.
+- **Completed** - wasn't a status anyone was actually using.
+
+Existing documents that already have `manual_status = 'Completed'`
+(from before this change) are unaffected - it's removed from the
+*pickable* list only; it stays in the internal "counts as resolved"
+check, so nothing that was already marked Completed suddenly reappears
+in pending totals. Nothing removed from the database itself - this is
+purely which options the UI offers going forward.
+
 ## Status
+
+- [x] **Removed Overdue and Completed from manual status list (Sep
+      2026):** `MANUAL_STATUSES` trimmed to Sent/Partially Paid/Paid/
+      Invoiced. Overdue was redundant with the already-automatic Days
+      Overdue tracking; Completed wasn't in real use. Existing
+      documents already marked Completed still count as resolved -
+      only removed from the pickable list, not from what the app
+      recognizes. See "Removed Overdue and Completed from the manual
+      status list" above.
 
 - [x] **Theme rebrand: Hyper Cobalt / Powder Sky (Sep 2026):** replaced
       the brass/gold accent with Hyper Cobalt (`#0038FF`, brightened to

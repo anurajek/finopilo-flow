@@ -142,7 +142,17 @@ export function statusForStorage(computed, isSales) {
 // include "Cancelled" - that's a real, separate mechanism (is_cancelled),
 // not a manual_status value; the screens that use this list add a
 // "Cancelled" option of their own, wired to that mechanism directly.
-export const MANUAL_STATUSES = ["Sent", "Overdue", "Partially Paid", "Paid", "Invoiced", "Completed"];
+// The manual status options a person can actually pick from - trimmed to
+// Sent/Partially Paid/Paid/Invoiced (Sep 2026): Overdue was redundant
+// with the automatic days-overdue tracking every list already shows
+// (computeStatus below derives "Overdue" purely from amount/paid_amount/
+// due_date - manually setting the same label on top of that was
+// confusing, not useful), and Completed wasn't a status anyone was
+// actually using day to day. Does NOT include "Cancelled" - that's a
+// real, separate mechanism (is_cancelled), not a manual_status value;
+// the screens that use this list add a "Cancelled" option of their own,
+// wired to that mechanism directly.
+export const MANUAL_STATUSES = ["Sent", "Partially Paid", "Paid", "Invoiced"];
 
 // A document (invoice/bill/PI) should stop counting toward "still owed"
 // totals for three different reasons, and all of them matter: the amount
@@ -156,6 +166,14 @@ export const MANUAL_STATUSES = ["Sent", "Overdue", "Partially Paid", "Paid", "In
 // deliberately NOT in this list - some of the amount is still genuinely
 // outstanding, so it should keep counting as pending exactly like the
 // plain amount-based check already does on its own.
+//
+// "Completed" stays in this list even though it's no longer offered as a
+// pickable option above (see MANUAL_STATUSES) - any existing document
+// that already has manual_status = "Completed" from before this change
+// still needs to be treated as resolved, or it would wrongly reappear in
+// "still pending" totals the moment this shipped. Removing an option
+// going forward doesn't mean forgetting what it meant on data that
+// already has it.
 const RESOLVED_MANUAL_STATUSES = ["Paid", "Invoiced", "Completed"];
 
 // The amount genuinely still owed on a document - 0 for a cancelled one,
